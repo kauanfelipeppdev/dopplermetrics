@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doppler Metrics</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="media/image/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Tela de Loading -->
+    <div id="loading-screen">
+        <img src="media/image/logo3.png" alt="Carregando..."
+            style="height: 64px; width: auto; animation: girarLogo 1.5s linear infinite;">
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <img src="media/image/logo2.png" alt="Doppler Metrics Logo" class="logo-img">
+        </div>
+        <a href="pesquisa.html" class="nav-link">Search skins →</a>
+    </header>
+
+    <main class="hero">
+        <h3 id="user-greeting"></h3>
+
+        <div class="hero-grid">
+            <div class="hero-copy">
+                <h1>The real cost, <em>behind the price tag.</em></h1>
+                <p>
+                    Storefront prices don't tell the full story. Doppler Metrics cross-references
+                    PirateSwap, DashSkins and DashSkins.gg in real time, so you always see what a
+                    skin actually costs once deposit bonuses and locked balances are factored in.
+                </p>
+                <a href="pesquisa.html"><button class="btn-primary">Search skins now</button></a>
+
+                <div class="hero-sources">
+                    <span>PirateSwap</span>
+                    <span>DashSkins</span>
+                    <span>DashSkins.gg</span>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-label">Live example</div>
+                <div class="demo-item">
+                    <div class="demo-item">
+                        <!-- Imagem real da Dragon Lore puxada direto dos servidores da Steam -->
+                        <img src="media/image/dragonlore.webp" alt="AWP Dragon Lore" class="demo-thumb">
+
+                        <div>
+                            <div class="demo-item-name">AWP | Dragon Lore</div>
+                            <div class="demo-item-float">Float 0.0312 · Factory New</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-row">
+                    <span class="demo-row-label">Storefront price</span>
+                    <span class="demo-row-value strike">R$ 250,00</span>
+                </div>
+                <div class="demo-badge">PIX deposit bonus +35%</div>
+
+                <div class="demo-result">
+                    <span class="demo-result-label">True effective cost</span>
+                    <span class="demo-result-value">R$ 185,19</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <footer>
+        &copy; 2026 Doppler Metrics. Developed to maximize your inventory.
+    </footer>
+
+    <!-- Welcome Modal -->
+    <div id="modal-welcome" class="modal-overlay">
+        <div class="modal-card">
+            <h2>Welcome!</h2>
+            <p>Please enter your name to personalize your experience.</p>
+            <input type="text" id="input-username" placeholder="Your name">
+            <div class="modal-actions">
+                <button class="btn-ghost" onclick="saveUsername('cancel')">Cancel</button>
+                <button class="btn-confirm" onclick="saveUsername()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Script de segurança direto no HTML para garantir o encerramento do loading
+        setTimeout(() => {
+            const loading = document.getElementById("loading-screen");
+            if (loading) {
+                loading.style.opacity = "0";
+                setTimeout(() => {
+                    loading.style.display = "none";
+                }, 600);
+            }
+        }, 1200);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const greeting = document.getElementById("user-greeting");
+            const modal = document.getElementById("modal-welcome");
+            const usernameInput = document.getElementById("input-username");
+
+            let savedName = localStorage.getItem("doppler_username");
+
+            if (savedName && savedName.trim() !== "") {
+                if (greeting) {
+                    greeting.innerText = `Hello, ${savedName}. Welcome back.`;
+                }
+                if (modal) {
+                    modal.style.display = "none";
+                }
+            } else {
+                if (modal) {
+                    modal.style.display = "flex";
+                }
+            }
+        });
+
+        function saveUsername(confirm = true) {
+            const input = document.getElementById("input-username");
+            const modal = document.getElementById("modal-welcome");
+            const greeting = document.getElementById("user-greeting");
+
+            let name = input ? input.value.trim() : "";
+
+            if (!name) {
+                name = "Trader"; // Default name if user doesn't enter anything
+            }
+
+            // Save to localStorage
+            localStorage.setItem("doppler_username", name);
+
+            // Hide the modal and update the greeting
+            if (modal) {
+                modal.style.display = "none";
+            }
+
+            if (greeting) {
+                greeting.innerText = `Hello, ${name}. Welcome back.`;
+            }
+        }
+    </script>
+</body>
+
+</html>
