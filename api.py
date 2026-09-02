@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles  # <--- ADICIONE ESTA LINHA AQUI
 import requests
 import os
 import time
@@ -15,14 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ==============================================================================
-# CACHE simples em memória (5 minutos). Guarda a resposta CRUA de cada loja,
-# antes de aplicar o cálculo de custo real (que depende do saldo do usuário,
-# então esse cálculo sempre roda de novo a cada request — só a chamada pro
-# site da loja é que é cacheada). Isso evita bater direto no PirateSwap/
-# DashSkins/DashSkins.gg a cada busca e reduz o risco do IP do servidor
-# ser bloqueado por excesso de requisições.
-# ==============================================================================
+app.mount("/media", StaticFiles(directory="media"), name="media")
+
 CACHE_TTL_SEGUNDOS = 300  # 5 minutos
 _cache_lojas = {}
 
